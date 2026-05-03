@@ -7,6 +7,8 @@ import {
   Trophy, Activity, Layout, Info, BarChart3, Download, PlayCircle, Send
 } from 'lucide-react'
 
+const API_URL = "https://ml-backend-m02l.onrender.com";
+
 const ConfusionMatrix = ({ matrix, labels }) => {
   const total = matrix.flat().reduce((a, b) => a + b, 0)
   const size = matrix.length
@@ -246,7 +248,7 @@ const PredictionSection = ({ result }) => {
     setPrediction(null)
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/predict', {
+      const response = await fetch(`${API_URL}/predict`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(inputs)
@@ -400,7 +402,7 @@ function App() {
     formData.append('file', file)
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/upload', {
+      const response = await fetch(`${API_URL}/upload`, {
         method: 'POST',
         body: formData,
       })
@@ -434,7 +436,7 @@ function App() {
     formData.append('target_column', targetColumn)
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/preprocess', {
+      const response = await fetch(`${API_URL}/preprocess`, {
         method: 'POST',
         body: formData,
       })
@@ -466,7 +468,7 @@ function App() {
     }
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/train', {
+      const response = await fetch(`${API_URL}/train`, {
         method: 'POST',
         body: formData,
       })
@@ -487,7 +489,7 @@ function App() {
 
   const handleDownloadModel = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:8000/download-model')
+      const response = await fetch(`${API_URL}/download-model`)
       if (!response.ok) throw new Error('Failed to download model')
       
       const blob = await response.blob()
